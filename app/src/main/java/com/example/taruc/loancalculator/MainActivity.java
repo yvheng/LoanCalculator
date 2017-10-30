@@ -13,6 +13,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String INTEREST = "MainActivity.INTEREST";
     public static final String LOAN = "MainActivity.LOAN";
     public static final String STATUS = "MainActivity.STATUS";
+    public static final String APPROVE = "Your loan application will be accepted!";
+    public static final String REJECT = "Your loan application will be rejected!";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +44,14 @@ public class MainActivity extends AppCompatActivity {
         rpayment = Integer.parseInt(rpaymentS);
         salary = Integer.parseInt(salaryS);
 
-        totalInterest = (rpayment/12.0)*(price-dpayment)*interestRate/100;
+        totalInterest = (price-dpayment)*(interestRate/100)*(rpayment/12.0);
         totalLoan = (price-dpayment)+totalInterest;
         monthPayment = totalLoan/rpayment;
 
         if(monthPayment<salary*0.3){
-            status = "Your loan application will be accepted!";
+            status = APPROVE;
         }else{
-            status = "Your loan application will be rejected!";
+            status = REJECT;
         }
 
         Intent intent = new Intent(this, ResultActivity.class);

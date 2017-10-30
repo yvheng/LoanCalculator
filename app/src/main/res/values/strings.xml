@@ -2,7 +2,7 @@
     <string name="app_name">Loan Calculator</string>
     <string name="vehiclePrice">Vehicle Price</string>
     <string name="downPayment">Down Payment</string>
-    <string name="interestRate">Interest Rate</string>
+    <string name="interestRate">Interest Rate (%)</string>
     <string name="repayment">Repayment</string>
     <string name="salary">Salary</string>
     <string name="totalInterest">Total Interest</string>
