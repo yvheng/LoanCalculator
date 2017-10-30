@@ -1,5 +1,6 @@
 package com.example.taruc.loancalculator;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,17 +8,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    TextView textViewTotalInterest,textViewTotalLoan,textViewMonthPayment,textViewStatus;
     EditText editTextVehiclePrice,editTextDownpayment,editTextInterestRate,editTextRepayment,editTextSalary;
+    public static final String PAYMENT = "MainActivity.PAYMENT";
+    public static final String INTEREST = "MainActivity.INTEREST";
+    public static final String LOAN = "MainActivity.LOAN";
+    public static final String STATUS = "MainActivity.STATUS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textViewTotalInterest = (TextView)findViewById(R.id.totalInterest);
-        textViewTotalLoan = (TextView)findViewById(R.id.totalLoan);
-        textViewMonthPayment = (TextView)findViewById(R.id.monthPayment);
-        textViewStatus = (TextView)findViewById(R.id.status);
         editTextVehiclePrice = (EditText)findViewById(R.id.vehiclePrice);
         editTextDownpayment = (EditText)findViewById(R.id.downPayment);
         editTextInterestRate = (EditText)findViewById(R.id.interestRate);
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void calculate(View v){
-        String priceS,dpaymentS,interestRateS,rpaymentS,salaryS;
+        String priceS,dpaymentS,interestRateS,rpaymentS,salaryS,status;
         int price,dpayment,interestRate,rpayment,salary;
         double totalInterest,totalLoan,monthPayment;
 
@@ -42,19 +42,22 @@ public class MainActivity extends AppCompatActivity {
         rpayment = Integer.parseInt(rpaymentS);
         salary = Integer.parseInt(salaryS);
 
-        totalInterest = (rpayment/12.0)*(price-dpayment)*interestRate;
+        totalInterest = (rpayment/12.0)*(price-dpayment)*interestRate/100;
         totalLoan = (price-dpayment)+totalInterest;
         monthPayment = totalLoan/rpayment;
 
-        textViewMonthPayment.setText(""+monthPayment);
-        textViewTotalInterest.setText(""+totalInterest);
-        textViewTotalLoan.setText(""+totalLoan);
-
-        if(monthPayment>salary*0.3){
-            textViewStatus.setText("Your loan application will be accepted!");
+        if(monthPayment<salary*0.3){
+            status = "Your loan application will be accepted!";
         }else{
-            textViewStatus.setText("Your loan application will be rejected!");
+            status = "Your loan application will be rejected!";
         }
+
+        Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra(INTEREST,totalInterest);
+        intent.putExtra(LOAN,totalLoan);
+        intent.putExtra(PAYMENT,monthPayment);
+        intent.putExtra(STATUS,status);
+        startActivity(intent);
     }
 
     public void reset(View v){
@@ -63,9 +66,5 @@ public class MainActivity extends AppCompatActivity {
         editTextDownpayment.setText("");
         editTextSalary.setText("");
         editTextInterestRate.setText("");
-        textViewStatus.setText("Please enter details and calculate again.");
-        textViewMonthPayment.setText("Month Payment");
-        textViewTotalLoan.setText("Total Loan");
-        textViewTotalInterest.setText("Total Interest");
     }
 }

@@ -11,4 +11,5 @@
     <string name="status">Status</string>
     <string name="calculate">Calculate</string>
     <string name="reset">Reset</string>
+    <string name="returnn">Return</string>
 </resources>
