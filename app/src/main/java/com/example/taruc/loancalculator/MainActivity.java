@@ -7,21 +7,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    TextView textViewTotalInterest,textViewTotalLoan,textViewMonthPayment;
+    TextView textViewTotalInterest,textViewTotalLoan,textViewMonthPayment,textViewStatus;
     EditText editTextVehiclePrice,editTextDownpayment,editTextInterestRate,editTextRepayment,editTextSalary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView textViewTotalInterest = (TextView)findViewById(R.id.totalInterest);
-        TextView textViewTotalLoan = (TextView)findViewById(R.id.totalLoan);
-        TextView textViewMonthPayment = (TextView)findViewById(R.id.monthPayment);
-        EditText editTextVehiclePrice = (EditText)findViewById(R.id.vehiclePrice);
-        EditText editTextDownpayment = (EditText)findViewById(R.id.downPayment);
-        EditText editTextInterestRate = (EditText)findViewById(R.id.interestRate);
-        EditText editTextRepayment = (EditText)findViewById(R.id.repayment);
-        EditText editTextSalary = (EditText)findViewById(R.id.salary);
+        textViewTotalInterest = (TextView)findViewById(R.id.totalInterest);
+        textViewTotalLoan = (TextView)findViewById(R.id.totalLoan);
+        textViewMonthPayment = (TextView)findViewById(R.id.monthPayment);
+        textViewStatus = (TextView)findViewById(R.id.status);
+        editTextVehiclePrice = (EditText)findViewById(R.id.vehiclePrice);
+        editTextDownpayment = (EditText)findViewById(R.id.downPayment);
+        editTextInterestRate = (EditText)findViewById(R.id.interestRate);
+        editTextRepayment = (EditText)findViewById(R.id.repayment);
+        editTextSalary = (EditText)findViewById(R.id.salary);
     }
 
     public void calculate(View v){
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         rpayment = Integer.parseInt(rpaymentS);
         salary = Integer.parseInt(salaryS);
 
-        totalInterest = (price-dpayment)*interestRate*(rpayment/12);
+        totalInterest = (rpayment/12.0)*(price-dpayment)*interestRate;
         totalLoan = (price-dpayment)+totalInterest;
         monthPayment = totalLoan/rpayment;
 
@@ -49,10 +50,10 @@ public class MainActivity extends AppCompatActivity {
         textViewTotalInterest.setText(""+totalInterest);
         textViewTotalLoan.setText(""+totalLoan);
 
-        if(monthPayment>salary){
-
+        if(monthPayment>salary*0.3){
+            textViewStatus.setText("Your loan application will be accepted!");
         }else{
-
+            textViewStatus.setText("Your loan application will be rejected!");
         }
     }
 
@@ -62,8 +63,9 @@ public class MainActivity extends AppCompatActivity {
         editTextDownpayment.setText("");
         editTextSalary.setText("");
         editTextInterestRate.setText("");
-        textViewMonthPayment.setText("");
-        textViewTotalLoan.setText("");
-        textViewTotalInterest.setText("");
+        textViewStatus.setText("Please enter details and calculate again.");
+        textViewMonthPayment.setText("Month Payment");
+        textViewTotalLoan.setText("Total Loan");
+        textViewTotalInterest.setText("Total Interest");
     }
 }

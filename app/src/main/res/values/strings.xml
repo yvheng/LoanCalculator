@@ -8,6 +8,7 @@
     <string name="totalInterest">Total Interest</string>
     <string name="totalLoan">Total Loan</string>
     <string name="monthPayment">Month Payment</string>
+    <string name="status">Status</string>
     <string name="calculate">Calculate</string>
     <string name="reset">Reset</string>
 </resources>
